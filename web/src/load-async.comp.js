@@ -12,6 +12,8 @@ ko.components.register(componentName, {
 			callComponentLoadData(this.componentName).then(data => {
 				this.loadedData = data;
 				this.isLoading(false);
+				// Avoid holding on to the loaded data.
+				this.loadedData = null;
 			});
 		}
 	},
