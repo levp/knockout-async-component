@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "ko-async",
+  "author": "Levi Perelman",
+  "devDependencies": {
+    "browser-sync": "^2.26.0"
+  },
+  "scripts": {
+    "start": "browser-sync start --server ./web/ --files ./web/ --no-ghost-mode --no-ui --no-online"
+  }
+}
