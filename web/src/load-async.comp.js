@@ -47,17 +47,21 @@ function callComponentLoadData(componentName) {
 	let dataPromise;
 	ko.components.defaultLoader.getConfig(componentName, config => {
 		if (!(loadConfig in config)) {
-			throw makeError(Error, `Missing required config "${loadConfig}".`);
+			throw makeLoadError(componentName, Error, `Property "${loadConfig}" missing from component configuration.`);
 		}
 		if (typeof config[loadConfig] !== 'function') {
-			throw makeError(Error, `Config "${loadConfig}" must be a function.`);
+			throw makeLoadError(componentName, Error, `Configuration property "${loadConfig}" must be a function.`);
 		}
 		dataPromise = config[loadConfig]();
 		if (!dataPromise || typeof dataPromise.then !== 'function') {
-			throw makeError(TypeError, `The "${loadConfig}" function must return a promise.`);
+			throw makeLoadError(componentName, TypeError, `Configuration property "${loadConfig}" function must return a promise.`);
 		}
 	});
 	return dataPromise;
+}
+
+function makeLoadError(componentName, errorConstructor, errorMessage) {
+	return makeError(errorConstructor, `Cannot load data for component "${componentName}": ${errorMessage}`);
 }
 
 function makeError(errorConstructor, errorMessage) {
