@@ -3,9 +3,12 @@
   "name": "ko-async",
   "author": "Levi Perelman",
   "devDependencies": {
-    "browser-sync": "^2.26.0"
+    "@types/knockout": "^3.4.59",
+    "browser-sync": "^2.26.0",
+    "typescript": "^3.1.1"
   },
   "scripts": {
-    "start": "browser-sync start --server ./web/ --files ./web/ --no-ghost-mode --no-ui --no-online"
+    "watch": "tsc -w",
+    "serve": "browser-sync start --server ./web/ --files ./web/ --no-ghost-mode --no-ui --no-online"
   }
 }

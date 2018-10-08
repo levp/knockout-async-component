@@ -5,7 +5,11 @@ const loadConfig = 'loadData';
 
 ko.components.register(componentName, {
 	viewModel: class {
-		constructor(params) {
+		private readonly isLoading: KnockoutObservable<boolean>;
+		private readonly componentName: string;
+		private loadedData?: any;
+
+		constructor(params: any) {
 			this.isLoading = ko.observable(true);
 			this.componentName = getComponentName(params);
 
@@ -34,7 +38,7 @@ ko.components.register(componentName, {
 // Helpers
 //=============================================================================
 
-function getComponentName(params) {
+function getComponentName(params: any): string {
 	if (!(compParam in params)) {
 		throw makeError(Error, `Missing required param "${compParam}"`);
 	}
@@ -45,9 +49,9 @@ function getComponentName(params) {
 	return componentName;
 }
 
-function callComponentLoadData(componentName) {
-	let dataPromise;
-	ko.components.defaultLoader.getConfig(componentName, config => {
+function callComponentLoadData(componentName: string): Promise<any> {
+	let dataPromise: Promise<any>;
+	ko.components.defaultLoader.getConfig!(componentName, (config: KnockoutComponentTypes.ComponentConfig) => {
 		if (!(loadConfig in config)) {
 			throw makeLoadError(componentName, Error, `Property "${loadConfig}" missing from component configuration.`);
 		}
@@ -59,13 +63,17 @@ function callComponentLoadData(componentName) {
 			throw makeLoadError(componentName, TypeError, `Configuration property "${loadConfig}" function must return a promise.`);
 		}
 	});
-	return dataPromise;
+	return dataPromise!;
 }
 
-function makeLoadError(componentName, errorConstructor, errorMessage) {
+interface GenericErrorConstructor<T extends Error> {
+	new(message: string): T;
+}
+
+function makeLoadError<T extends Error>(componentName: string, errorConstructor: GenericErrorConstructor<T>, errorMessage: string): T {
 	return makeError(errorConstructor, `Cannot load data for component "${componentName}": ${errorMessage}`);
 }
 
-function makeError(errorConstructor, errorMessage) {
+function makeError<T extends Error>(errorConstructor: GenericErrorConstructor<T>, errorMessage: string): T {
 	return new errorConstructor(`[Component "${componentName}"] - ${errorMessage}`)
 }

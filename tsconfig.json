@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"moduleResolution": "classic",
+		"outDir": "./web/dist/",
+		"module": "es2015",
+		"target": "es2018",
+		"sourceMap": true,
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"strictNullChecks": true,
+		"noImplicitReturns": true,
+		"noUnusedParameters": true,
+		"strictFunctionTypes": false,
+		"noFallthroughCasesInSwitch": true,
+		"strictPropertyInitialization": true,
+		"suppressImplicitAnyIndexErrors": true,
+		"forceConsistentCasingInFileNames": true
+	},
+	"include": [
+		"./src/**/*.ts"
+	]
+}

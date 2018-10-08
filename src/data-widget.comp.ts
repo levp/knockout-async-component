@@ -7,7 +7,9 @@ ko.components.register('data-widget', {
 		});
 	},
 	viewModel: class {
-		constructor(props) {
+		private data: any;
+
+		constructor(props: any) {
 			this.data = props.data;
 		}
 	},
